@@ -7,6 +7,7 @@ const expressValidator = require("express-validator");
 const cors = require("cors");
 require("dotenv").config();
 
+const {dbConnection } = require ('./database/config');
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const roomsRoutes = require("./routes/rooms");
@@ -17,7 +18,25 @@ const paymentRoutes = require("./routes/payment");
 // app
 const app = express();
 
-mongoose
+
+
+if (process.env.DB_CNN ){
+
+  try {
+    setTimeout(() => {
+
+      dbConnection();
+      
+    }, 10000);
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+ 
+}else{
+
+  mongoose
 .connect(process.env.DATABASE, {
 useUnifiedTopology: true,
 useNewUrlParser: true,
@@ -28,7 +47,7 @@ useCreateIndex: true,
 console.log('db not connected');
 });
 
-
+}
 
 
 

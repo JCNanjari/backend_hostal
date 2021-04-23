@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+    "dev": "nodemon app.js",
     "nodemon": "nodemon app.js"
   },
   "author": "JCN",
@@ -25,6 +26,5 @@
     "uuid": "^3.4.0",
     "yarn": "^1.22.10"
   },
-  "devDependencies": {},
   "description": ""
 }
