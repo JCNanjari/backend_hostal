@@ -7,50 +7,39 @@ const expressValidator = require("express-validator");
 const cors = require("cors");
 require("dotenv").config();
 
-const {dbConnection } = require ('./database/config');
+const { dbConnection } = require("./database/config");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const roomsRoutes = require("./routes/rooms");
 const bookingRoutes = require("./routes/booking");
 const passengerRoutes = require("./routes/passenger");
 const paymentRoutes = require("./routes/payment");
+const guestRoutes = require("./routes/guest");
+
 
 // app
 const app = express();
 
-
-
-if (process.env.DB_CNN ){
-
+if (process.env.DB_CNN) {
   try {
     setTimeout(() => {
-
       dbConnection();
-      
     }, 10000);
-    
   } catch (error) {
     console.log(error);
-    
   }
- 
-}else{
-
+} else {
   mongoose
-.connect(process.env.DATABASE, {
-useUnifiedTopology: true,
-useNewUrlParser: true,
-useCreateIndex: true,
-})
-.then(() => console.log('DB Connected!'))
-.catch(err => {
-console.log('db not connected');
-});
-
+    .connect(process.env.DATABASE, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useCreateIndex: true,
+    })
+    .then(() => console.log("DB Connected!"))
+    .catch((err) => {
+      console.log("db not connected");
+    });
 }
-
-
-
 
 // db
 /* mongoose
@@ -72,6 +61,7 @@ app.use(cors());
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", guestRoutes);
 app.use("/api", roomsRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api", paymentRoutes);

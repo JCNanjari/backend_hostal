@@ -29,7 +29,7 @@ exports.create = (req, res) => {
 };
 
 exports.listBookingsUser = (req, res) => {
-    Booking.find({user: req.profile._id})
+    Booking.find({guest: req.profile._id})
         .populate("rooms", "_id name state")
         .sort("-created")
         .exec((err, booking) => {
@@ -45,7 +45,7 @@ exports.listBookingsUser = (req, res) => {
 
 exports.listBookingsAllUser = (req, res) => {
     Booking.find()
-        .populate("users", "_id name email")
+        .populate("guest", "_id name email")
         .sort("-created")
         .exec((err, booking) => {
             if (err) {
@@ -61,7 +61,7 @@ exports.listBookingsAllUser = (req, res) => {
 
 exports.getStatusValues = (req, res) => {
     Booking.find({rooms: req.rooms._id})
-    .populate("user", "_id name email")
+    .populate("guest", "_id name email")
     .sort("-created")
     .exec((err, booking) => {
         if (err) {

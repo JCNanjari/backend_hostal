@@ -24,13 +24,13 @@ exports.create = (req, res) => {
         const {
             rooms,
             booking,
-            user
+            guest
         } = fields;
 
         if (
             !rooms ||
             !booking ||
-            !user       
+            !guest       
         ) {
             return res.status(400).json({
                 error: "All fields are required"

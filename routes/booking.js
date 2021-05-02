@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
-const { userById, addBookingToUserHistory } = require("../controllers/users");
+const { guestById, addBookingToUserHistory } = require("../controllers/guest");
 const {
     create,
     listBookingsAllUser,
@@ -15,7 +15,7 @@ const {
 const { changeStateNoAvailable,roomsById } = require("../controllers/rooms");
 
 router.post(
-    "/booking/create/:roomsId/:userId",
+    "/booking/create/:roomsId/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
@@ -25,26 +25,26 @@ router.post(
 );
 
 
-router.get("/booking/list/:userId", requireSignin, isAuth, isAdmin, listBookingsAllUser);
-router.get("/booking/my/:userId", requireSignin, isAuth, listBookingsUser);
+router.get("/booking/list/:guestId", requireSignin, isAuth, isAdmin, listBookingsAllUser);
+router.get("/booking/my/:guestId", requireSignin, isAuth, listBookingsUser);
 
 
 router.get(
-    "/booking/statusroom/:roomsId/:userId",
+    "/booking/statusroom/:roomsId/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
     getStatusValues
 );
 router.put(
-    "/order/:orderId/status/:userId",
+    "/order/:orderId/status/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
     updateBookingStatus
 );
 
-router.param("userId", userById);
+router.param("guestId",guestById);
 router.param("bookingById", bookingById);
 router.param("roomsId", roomsById);
 

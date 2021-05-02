@@ -9,7 +9,6 @@ const {
     update,
     remove,
     list,
-    listHistory
 } = require("../controllers/users");
 
 router.get("/user/:userId", requireSignin, isAuth, read);
@@ -25,9 +24,6 @@ router.delete(
     remove
 );
 
-
-router.get("/user/history/:userId",requireSignin, isAuth, listHistory);
-
-router.param("userId", userById);
+router.param("userId",userById);
 
 module.exports = router;

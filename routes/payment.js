@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
-const { userById } = require("../controllers/users");
+const { guestById } = require("../controllers/guest");
 const { bookingById,changeStatePayment } = require("../controllers/booking");
 
-router.post("/payment/create/:bookingId/:userId",
+router.post("/payment/create/:bookingId/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
@@ -13,7 +13,7 @@ router.post("/payment/create/:bookingId/:userId",
       
 );
 router.param("bookingId", bookingById);
-router.param("userId",userById);
+router.param("guestId",guestById);
 
 module.exports = router;
 

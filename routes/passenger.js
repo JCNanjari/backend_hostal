@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
-const { userById, addBookingToUserHistory, list } = require("../controllers/users");
+const { guestById, addBookingToUserHistory, list } = require("../controllers/guest");
 const { roomsById, changeStateAvailable } = require("../controllers/rooms");
 const { bookingById } = require("../controllers/booking");
 const {
@@ -15,7 +15,7 @@ const {
 
 
 router.post(
-    "/passenger/create/:userId",
+    "/passenger/create/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
@@ -23,7 +23,7 @@ router.post(
 );
 
 router.post(
-    "/passenger/checkout/:passengerId/:roomId/:userId",
+    "/passenger/checkout/:passengerId/:roomId/:guestId",
     requireSignin,
     isAuth,
     isAdmin,
@@ -31,10 +31,10 @@ router.post(
     updatecheckout
 );
 
-router.get("/passenger/list/:userId", requireSignin, isAuth, isAdmin,listpassenger);
+router.get("/passenger/list/:guestId", requireSignin, isAuth, isAdmin,listpassenger);
 
 
-router.param("userId", userById);
+router.param("guestId", guestById);
 router.param("roomId", roomsById);
 router.param("passengerId", passengerById);
 

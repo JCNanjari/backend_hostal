@@ -4,6 +4,12 @@ const uuidv1 =require("uuid/v1");
 
 const userSchema = new mongoose.Schema(
     {
+        email: {  
+            type: String,
+            trim: true, 
+            require: true,
+            unique: true
+        },
 
         name: {
             type: String,
@@ -11,51 +17,16 @@ const userSchema = new mongoose.Schema(
             require: true,
             maxlength : 32
         },
-        run: {  
-            type: Number, 
-            require: true           
-        },
-        dv:{
-            type: String,
-            require: true,
-            maxlength: 1
-
-        }, Nacionality: {  
-            type: String,
-            maxlength : 20
-            
-        },
-          email: {  
-            type: String,
-            trim: true, 
-            require: true,
-            unique: true
-        },
-        place_of_origin: {  
-            type: String,
-            trim: true, 
-            require: true,
-           
-        },
-        phonenumber:{           
-            type:Number,
-            require: true
-
-        },
         hashed_password: {   
             type: String,
             require: true
         },
-        about:{
-            type: String,
-            trim : true
-        },
 
         salt: String,
         role :{
-        
-            type: Number,
-            default : 0 
+
+            type: Boolean,
+            default :  "1"
         },
         history: {
            type: Array,
