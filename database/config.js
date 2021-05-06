@@ -4,9 +4,10 @@ const dbConnection = async () => {
   try {
     await mongoose.connect(process.env.DB_CNN, {
       userNewUrlParser: true,
+      useUnifiedTopology: true
     });
 
-    console.log("Base de datos conectada");
+    console.log("Base bd  datos conectada");
   } catch (error) {
     console.log(error);
 

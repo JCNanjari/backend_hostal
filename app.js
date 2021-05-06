@@ -20,17 +20,9 @@ const guestRoutes = require("./routes/guest");
 // app
 const app = express();
 
-if (process.env.DB_CNN) {
-  try {
-    setTimeout(() => {
-      dbConnection();
-    }, 10000);
-  } catch (error) {
-    console.log(error);
-  }
-} else {
+
   mongoose
-    .connect(process.env.DATABASE, {
+    .connect(process.env.DB_CNN, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -39,7 +31,7 @@ if (process.env.DB_CNN) {
     .catch((err) => {
       console.log("db not connected");
     });
-}
+
 
 // db
 /* mongoose

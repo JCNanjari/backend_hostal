@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const passengerSchema = new mongoose.Schema(
     {
         rooms: {type:ObjectId,ref:"Rooms"},
-        user: {type:ObjectId,ref:"Users"},
+        guest: {type:ObjectId,ref:"Guest"},
         booking: {type:ObjectId,ref:"Booking"},
         date_checkin:{
             type: Date

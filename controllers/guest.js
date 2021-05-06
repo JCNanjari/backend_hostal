@@ -5,6 +5,22 @@ const fs = require("fs");
 const Guest = require("../models/guest");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
+exports.create = (req, res) => {
+  //console.log("req.body", req.body);
+  const guest = new Guest(req.body);
+  
+  guest.save((err, guest) => {
+    
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({ guest });
+  
+  });
+};
+
 exports.guestById = (req, res, next, id) => {
   Guest.findById(id).exec((err, guest) => {
     if (err || !guest) {
@@ -17,11 +33,6 @@ exports.guestById = (req, res, next, id) => {
   });
 };
 
-exports.read = (req, res) => {
-  req.profile.hashed_password = undefined;
-  req.profile.salt = undefined;
-  return res.json(req.profile);
-};
 
 exports.remove = (req, res) => {
   let guest = req.body.guest;
@@ -50,7 +61,7 @@ exports.update = (req, res) => {
       }
       guest.hashed_password = undefined;
       guest.salt = undefined;
-      res.json(user);
+      res.json(guest);
     }
   );
 };
@@ -80,7 +91,7 @@ exports.addBookingToUserHistory = (req, res, next) => {
   );
 };
 
-exports.list = (req, res) => {
+exports.listbyrooms = (req, res) => {
   let order = req.query.order ? req.query.order : "asc";
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;

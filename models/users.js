@@ -4,6 +4,11 @@ const uuidv1 =require("uuid/v1");
 
 const userSchema = new mongoose.Schema(
     {
+        identify: {  
+            type: String,
+            trim: true, 
+            unique: true
+        },
         email: {  
             type: String,
             trim: true, 
@@ -26,7 +31,7 @@ const userSchema = new mongoose.Schema(
         role :{
 
             type: Boolean,
-            default :  "1"
+            default :  "false"
         },
         history: {
            type: Array,
