@@ -60,6 +60,27 @@ exports.requireSignin = expressJwt({
   userProperty: "auth",
 });
 
+exports.revalidToken = ( req,res) => {
+  
+  const id = req._id;
+  const name = req.name;
+  const role = req.role;
+  
+  
+  //generate token
+  
+    const token = jwt.sign(id,name,role, process.env.JWT_SECRET);
+ 
+    res.cookie("t", token, { expire: new Date() + 9999 });
+  
+    return res.json({
+      token, 
+      id,
+      name,
+      role
+    })
+}
+
 exports.isAuth = (req, res, next) => {
   let user = req.profile && req.auth && req.profile.id == req.auth.id;
 
