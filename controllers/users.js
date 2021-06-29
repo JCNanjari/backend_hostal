@@ -13,7 +13,9 @@ exports.userById = (req, res, next, id) => {
         error: "User not found",
       });
     }
+
     req.profile = user;
+
     next();
   });
 };
@@ -25,7 +27,8 @@ exports.read = (req, res) => {
 };
 
 exports.remove = (req, res) => {
-  let user = req.body.user;
+  const user = req.profile._id
+
   User.deleteOne({ _id: user }, (err, data) => {
     if (err) {
       return res.status(400).json({
@@ -52,12 +55,12 @@ exports.update = (req, res) => {
       user.hashed_password = undefined;
       user.salt = undefined;
       res.json(user);
+      console.log(User);
     }
   );
 };
 
 exports.list = (req, res) => {
-
   User.find({}, function (err, user) {
     if (err) {
       return res.status(400).json({
@@ -67,3 +70,24 @@ exports.list = (req, res) => {
     res.json(user);
   });
 };
+
+
+
+
+/* 
+var path = req.url;
+  var data = req.headers.authorization; //descripter data
+
+  jwt.verify(data, process.env.JWT_SECRET, function (err, decoded) {
+    if (err) {
+      err = {
+        name: "TokenExpiredError",
+        message: "JWT Expired",
+        expiredAt: err.expiredAt
+      };
+      return res.status(403).json(returnJsonError(403, err, path));
+    } else {
+      req.complaintjwt = decoded;
+      next();
+    }
+  }); */

@@ -5,14 +5,14 @@ const {
     signup,
     signin,
     signout,
-    requireSignin,
-    revalidToken
+    
+
 } = require("../controllers/auth");
 const { userSignupValidator } = require("../validator");
 
 router.post("/signup", userSignupValidator, signup);
 router.post("/signin", signin);
 router.get("/signout", signout);
-router.get("/renew", revalidToken);
+
 
 module.exports = router;

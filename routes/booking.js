@@ -17,7 +17,7 @@ const { changeStateNoAvailable,roomsById } = require("../controllers/rooms");
 router.post(
     "/booking/create/:roomsId/:guestId",
     requireSignin,
-    isAuth,
+   // isAuth,
     isAdmin,
     changeStateNoAvailable,
     addBookingToUserHistory,
@@ -25,7 +25,8 @@ router.post(
 );
 
 
-router.get("/booking/list/:guestId", requireSignin, isAuth, isAdmin, listBookingsAllUser);
+router.get("/booking/list", requireSignin, //isAuth, isAdmin
+ listBookingsAllUser);
 router.get("/booking/my/:guestId", requireSignin, isAuth, listBookingsUser);
 
 

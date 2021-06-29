@@ -76,8 +76,8 @@ exports.addBookingToUserHistory = (req, res, next) => {
     rooms_date: Date(),
   });
 
-  User.findOneAndUpdate(
-    { _id: req.body.user },
+  Guest.findOneAndUpdate(
+    { _id: req.body.guest },
     { $push: { history: history } },
     { new: true },
     (error, data) => {

@@ -41,12 +41,15 @@ exports.signin = (req, res) => {
       });
     }
     // generate a signed token with user id and secret
-    const token = jwt.sign({ identify: user.identify }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { identify: user.identify, id: user.id },
+      process.env.JWT_SECRET
+    );
     // persist the token as 't' in cookie with expiry date
     res.cookie("t", token, { expire: new Date() + 9999 });
     // return response with user and token to frontend client
-    const { identify, name, email, role } = user;
-    return res.json({ token, user: { identify, email, name, role } });
+    const { _id, name, email, role } = user;
+    return res.json({ token, user: { _id, email, name, role } });
   });
 };
 
@@ -60,44 +63,24 @@ exports.requireSignin = expressJwt({
   userProperty: "auth",
 });
 
-exports.revalidToken = ( req,res) => {
-  
-  const id = req._id;
-  const name = req.name;
-  const role = req.role;
-  
-  
-  //generate token
-  
-    const token = jwt.sign(id,name,role, process.env.JWT_SECRET);
- 
-    res.cookie("t", token, { expire: new Date() + 9999 });
-  
-    return res.json({
-      token, 
-      id,
-      name,
-      role
-    })
-}
-
-exports.isAuth = (req, res, next) => {
-  let user = req.profile && req.auth && req.profile.id == req.auth.id;
-
-  if (!user) {
-    return res.status(403).json({
-      error: "Access denied",
-    });
-  }
-
-  next();
-};
-
-exports.isAdmin = (req, res, next) => {
-  if (req.profile.role === false) {
+exports.isAdmin = (req, res, role, next) => {
+  if (req.role === false) {
     return res.status(403).json({
       error: "Admin resourse! Access denied",
     });
   }
+};
+
+exports.isAuth = (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(403).json({
+      error: "Tu peticion no es aceptada",
+    });
+  }
+
+  const token = req.headers.authorization.split(" ")[1];
+  const payload = jwt.decode(token, process.env.JWT_SECRET);
+
+  req.user = payload.sub;
   next();
 };

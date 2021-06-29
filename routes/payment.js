@@ -7,8 +7,8 @@ const { bookingById,changeStatePayment } = require("../controllers/booking");
 
 router.post("/payment/create/:bookingId/:guestId",
     requireSignin,
-    isAuth,
-    isAdmin,
+  //  isAuth,
+    //isAdmin,
     changeStatePayment
       
 );

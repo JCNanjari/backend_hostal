@@ -17,16 +17,16 @@ const {
 router.post(
     "/passenger/create/:guestId",
     requireSignin,
-    isAuth,
-    isAdmin,
+   // isAuth,
+    //isAdmin,
     create
 );
 
 router.post(
     "/passenger/checkout/:passengerId/:roomId/:guestId",
     requireSignin,
-    isAuth,
-    isAdmin,
+   // isAuth,
+    //isAdmin,
     changeStateAvailable,
     updatecheckout
 );

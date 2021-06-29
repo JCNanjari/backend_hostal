@@ -76,7 +76,7 @@ exports.listpassenger = (req, res) =>{
     let status = req.query.status ?  req.query.status: null;
      
          Passenger.find({date_checkout:status})
-         .populate ("user", "name run dv phonenumber")
+         .populate ("guest", "name run dv phonenumber")
          .populate("rooms","name description")
          .populate("booking", "amount status")          
          .sort([[sortBy, order]])
