@@ -26,6 +26,8 @@ const app = express();
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false 
+      
     })
     .then(() => console.log("DB Connected!"))
     .catch((err) => {

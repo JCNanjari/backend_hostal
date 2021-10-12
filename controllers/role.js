@@ -2,11 +2,25 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 
-const User = require("../models/users");
+const Role = require("../models/role");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const jwt = require("express-jwt");
 
-exports.userById = (req, res, next, id) => {
+exports.create = (req, res) => {
+  //console.log("req.body", req.body);
+  const role = new Role(req.body);
+
+  Role.save((err, role) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    res.json({ role });
+  });
+};
+
+exports.roleById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({
@@ -27,7 +41,7 @@ exports.read = (req, res) => {
 };
 
 exports.remove = (req, res) => {
-  const user = req.profile._id
+  const user = req.profile._id;
 
   User.deleteOne({ _id: user }, (err, data) => {
     if (err) {
@@ -70,7 +84,3 @@ exports.list = (req, res) => {
     res.json(user);
   });
 };
-
-
-
-

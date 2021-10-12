@@ -9,12 +9,12 @@ const {
   update,
   remove,
   list,
-} = require("../controllers/users");
+} = require("../controllers/role");
 
-router.get("/user/:userId", requireSignin, isAuth, read);
+/* router.get("/user/:userId", requireSignin, isAuth, read);
 router.put("/user/update/:userId", requireSignin, isAuth, update);
 router.get("/user/list/all", requireSignin,isAuth, list);
-router.delete("/user/delete/:userId", requireSignin, isAuth,remove);
+router.delete("/user/delete/:userId", requireSignin, isAuth,remove); */
 
 router.param("userId", userById);
 

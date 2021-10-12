@@ -1,4 +1,4 @@
-const User = require("../models/users");
+const UserModel = require("../models/users");
 const jwt = require("jsonwebtoken"); // to generate signed token
 const expressJwt = require("express-jwt"); // for authorization check
 const { errorHandler } = require("../helpers/dbErrorHandler");
@@ -7,9 +7,8 @@ const { v1 } = require("uuid");
 exports.signup = (req, res) => {
   // console.log("req.body", req.body);
   const user = new User(req.body);
-  const identify = `U_${v1().replace(/-/g, "")}`;
-  user.identify = identify;
-  user.save((err, user) => {
+
+  UserModel.save((err, user) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err),
@@ -27,7 +26,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   // find the user based on email
   const { email, password } = req.body;
-  User.findOne({ email }, (err, user) => {
+  UserModel.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
         error: "User with that email does not exist. Please signup",
@@ -42,7 +41,7 @@ exports.signin = (req, res) => {
     }
     // generate a signed token with user id and secret
     const token = jwt.sign(
-      { identify: user.identify, id: user.id },
+      { id: user.id, name: user.name, role: user.role },
       process.env.JWT_SECRET
     );
     // persist the token as 't' in cookie with expiry date
@@ -60,27 +59,31 @@ exports.signout = (req, res) => {
 
 exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
-  userProperty: "auth",
+  function: function _function(err, req, res, next) {
+    return res.status(403).json(returnJsonError(403, "Access Denied", path));
+  },
 });
 
 exports.isAdmin = (req, res, role, next) => {
-  if (req.role === false) {
-    return res.status(403).json({
-      error: "Admin resourse! Access denied",
-    });
-  }
+  
+
+
+  
 };
 
 exports.isAuth = (req, res, next) => {
-  if (!req.headers.authorization) {
-    return res.status(403).json({
-      error: "Tu peticion no es aceptada",
-    });
-  }
 
+  
+  if (!req.headers.authorization) {
+    return res.status(403).json({ error: "Tu peticion no es aceptada",});
+
+  }
   const token = req.headers.authorization.split(" ")[1];
   const payload = jwt.decode(token, process.env.JWT_SECRET);
 
   req.user = payload.sub;
+
   next();
 };
+
+

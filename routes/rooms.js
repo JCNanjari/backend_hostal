@@ -19,8 +19,8 @@ const { updateBookingStatus } = require("../controllers/booking");
 
 router.get("/rooms/:roomsId", read);
 router.post("/rooms/create",  create);
-router.put("/rooms/:roomsId",requireSignin,isAuth,isAdmin,update);
-router.delete("/rooms/:roomsId/",requireSignin,isAuth,isAdmin,remove);
+router.put("/rooms/:roomsId",requireSignin,isAuth,update);
+router.delete("/rooms/:roomsId/",requireSignin,isAuth,remove);
 router.get("/rooms", list);
 
 
@@ -28,7 +28,6 @@ router.get("/rooms", list);
 router.post("/rooms/status/available/:roomsId/:guestId",
 requireSignin,
 isAuth,
-isAdmin,
 changeStateAvailable
 );
 
